@@ -3,9 +3,9 @@ package org.maxur.akkacluster.packageForDialog;
 import org.maxur.akkacluster.baseData.Record;
 
 public class PackChangeRecord {
-	final private Integer oldId;
-	final private Integer newId;
-	final private Record record;
+	private final Integer oldId;
+	private final Integer newId;
+	private final Record record;
 	
 	public static PackChangeRecord create(Integer oldId, Integer newId, Record record) {
 		return new PackChangeRecord(oldId, newId, record);

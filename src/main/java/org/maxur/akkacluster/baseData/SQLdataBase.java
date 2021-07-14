@@ -20,7 +20,7 @@ public class SQLdataBase implements IBaseData {
 	
 	public SQLdataBase() {
 		data = new TreeMap<Integer, Record>();
-		MaxSize = 10000;
+		MaxSize = 1000;
 		sizeBlockUpdate = 0;
 		readBase();
 	}
@@ -97,14 +97,14 @@ public class SQLdataBase implements IBaseData {
 		if (data.size() < MaxSize) {
 			data.put(id, record);
 			
-			update();
-			/*
+			//update();
+			
 			sizeBlockUpdate++;
-			if (sizeBlockUpdate >= MaxSize / 3) {
+			if (sizeBlockUpdate >= MaxSize / 200) {
 				update();
 				sizeBlockUpdate = 0;
 			}
-			*/
+			
 			
 		} else {
 			System.out.println("База данных переполнена!!!");
@@ -120,19 +120,19 @@ public class SQLdataBase implements IBaseData {
 		try {
 			data.remove(id);
 			
-			update();
-			/*
+			//update();
+			
 			sizeBlockUpdate++;
 			if (sizeBlockUpdate >= MaxSize / 3) {
 				update();
 				sizeBlockUpdate = 0;
 			}
-			*/
+			
 		} catch(NullPointerException  e) {
 			System.out.println(e.getMessage());
 		}
 		
-		try { Thread.sleep(50); } 
+		try { Thread.sleep(2); } 
 		catch (InterruptedException e) { e.printStackTrace(); }	
 	}
 

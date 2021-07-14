@@ -1,9 +1,7 @@
 package org.maxur.akkacluster.senderMiroService;
 
 public class MailMessage {
-	private String message;
-
-	public MailMessage() {}
+	private final String message;
 	
 	public MailMessage(String message) {
 		super();
@@ -16,10 +14,6 @@ public class MailMessage {
 	
 	public String getMessage() {
 		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
 	}
 
 	@Override

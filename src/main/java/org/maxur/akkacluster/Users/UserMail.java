@@ -4,14 +4,16 @@ import java.util.HashMap;
 
 import org.maxur.akkacluster.baseData.Record;
 
-public class RegisteredUser extends IUser {
+public class UserMail extends IUser{
 	
-	public RegisteredUser(String name, String surname) {
+	public UserMail(String name, String surname, String login, String password) {
 		this.name = name;
 		this.surname = surname;
+		this.login = login;
+		this.password = password;
 		records = new HashMap<Integer, Record>();
 	}
-	
+
 	@Override
 	public void pushRecord(Integer id, Record record) {
 		records.put(id, record);
@@ -31,4 +33,5 @@ public class RegisteredUser extends IUser {
 		popRecord(oldId);
 		pushRecord(newId, record);
 	}
+
 }

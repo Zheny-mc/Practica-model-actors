@@ -3,8 +3,8 @@ package org.maxur.akkacluster.packageForDialog;
 import org.maxur.akkacluster.baseData.Record;
 
 public class PackPushRecord {
-	final private Integer id;
-	final private Record record;
+	private final Integer id;
+	private final Record record;
 	
 	public static PackPushRecord create(Integer id, Record record) {
 		return new PackPushRecord(id, record);

@@ -1,7 +1,7 @@
 package org.maxur.akkacluster.packageForDialog;
 
 public class PackPopRecord {
-	final private Integer id;
+	private final Integer id;
 	
 	public static PackPopRecord create(Integer id) {
 		return new PackPopRecord(id);

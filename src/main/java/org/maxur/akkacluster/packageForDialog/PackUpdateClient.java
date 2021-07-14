@@ -1,8 +1,8 @@
 package org.maxur.akkacluster.packageForDialog;
 
 public class PackUpdateClient {
-	final private String name;
-	final private String surName;
+	private final String name;
+	private final String surName;
 	
 	public static PackUpdateClient create(String name, String surName) {
 		return new PackUpdateClient(name, surName);
