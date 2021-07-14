@@ -5,27 +5,32 @@ import java.util.Map;
 
 import org.maxur.akkacluster.baseData.Record;
 
-public class UnRegisteredUser extends IUser {
+public class Admin extends IUser {
 
-	public UnRegisteredUser() {
-		name = "Имя гостя";
-		this.surname = "Фамилия гостя";
+	public Admin(String name, String surname) {
+		this.name = name;
+		this.surname = surname;
 		records = new HashMap<Integer, Record>();
 	}
 	
 	@Override
 	public void pushRecord(Integer id, Record record) {
-		System.out.println("ошибка доступа, зарегестрируйтесь!");
+		records.put(id, record);
 	}
-
+	
 	@Override
 	public void popRecord(Integer id) {
-		System.out.println("ошибка доступа, зарегестрируйтесь!");
+		try {
+			records.remove(id);
+		} catch(NullPointerException  e) {
+			System.out.println(e.getMessage());
+		}
 	}
-
+	
 	@Override
 	public void changeRecord(Integer oldId, Integer newId, Record record) {
-		System.out.println("ошибка доступа, зарегестрируйтесь!");
+		popRecord(oldId);
+		pushRecord(newId, record);
 	}
 
 	@Override

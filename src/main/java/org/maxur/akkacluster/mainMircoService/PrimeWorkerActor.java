@@ -4,7 +4,7 @@ import static akka.actor.ActorRef.noSender;
 
 import java.util.Map;
 
-import org.maxur.akkacluster.Users.Client;
+import org.maxur.akkacluster.Users.ClientActor;
 import org.maxur.akkacluster.baseData.Record;
 import org.maxur.akkacluster.baseData.SQLdataBaseActor;
 import org.maxur.akkacluster.packageForDialog.PackChangeRecord;
@@ -20,7 +20,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.UntypedAbstractActor;
 
-public class PrimeWorker extends UntypedAbstractActor {
+public class PrimeWorkerActor extends UntypedAbstractActor {
 
 private ActorRef sqlDataBase;
 	

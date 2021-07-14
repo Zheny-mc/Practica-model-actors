@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.maxur.akkacluster.Users.InfoUser;
 import org.maxur.akkacluster.packageForDialog.PackChangeRecord;
 import org.maxur.akkacluster.packageForDialog.PackPopRecord;
 import org.maxur.akkacluster.packageForDialog.PackPushRecord;
@@ -33,7 +34,9 @@ public class SQLdataBaseActor extends UntypedAbstractActor {
 	public void onReceive(Object message) throws Exception {
 		//update list
 		if (message instanceof PackUpdateClient) {	
-			final Map<Integer, Record> records = baseData.getData();
+			PackUpdateClient packUpdateClient = (PackUpdateClient)message;
+			final InfoUser infoUser = packUpdateClient.getInfoUser();
+			final Map<Integer, Record> records = baseData.getUsers().get(infoUser).getRecords();
 			sender().tell(records, getSelf());
 		}
 		
@@ -41,14 +44,16 @@ public class SQLdataBaseActor extends UntypedAbstractActor {
 			PackPushRecord packPushRecord = (PackPushRecord)message;
 			final Integer id = packPushRecord.getId();
 			final Record record = packPushRecord.getRecord();
-			baseData.pushRecord(id, record);
+			final InfoUser infoUser = packPushRecord.getInfoUser();
+			baseData.pushRecord(id, record, infoUser);
 			sender().tell("добавления: успешно", getSelf());		
 		}
 		
 		if (message instanceof PackPopRecord) {	
 			PackPopRecord packPopRecord = (PackPopRecord)message;
 			final Integer id = packPopRecord.getId();
-			baseData.popRecord(id);
+			final InfoUser infoUser = packPopRecord.getInfoUser();
+			baseData.popRecord(id, infoUser);
 			sender().tell("удаления: успешно", getSelf());	
 		}
 		
@@ -57,7 +62,8 @@ public class SQLdataBaseActor extends UntypedAbstractActor {
 			final Integer oldId = packChangeRecord.getOldId();
 			final Integer newId = packChangeRecord.getNewId();
 			final Record record = packChangeRecord.getRecord();
-			baseData.changeRecord(oldId, newId, record);
+			final InfoUser infoUser = packChangeRecord.getInfoUser();
+			baseData.changeRecord(oldId, newId, record, infoUser);
 			sender().tell("изменение: успешно", getSelf());
 		}
 		

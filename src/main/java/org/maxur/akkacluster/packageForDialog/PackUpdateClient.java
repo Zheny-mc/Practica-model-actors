@@ -1,25 +1,29 @@
 package org.maxur.akkacluster.packageForDialog;
 
+import org.maxur.akkacluster.Users.InfoUser;
+
 public class PackUpdateClient {
-	private final String name;
-	private final String surName;
-	
-	public static PackUpdateClient create(String name, String surName) {
-		return new PackUpdateClient(name, surName);
+	private final InfoUser infoUser;
+
+	public static PackUpdateClient create(InfoUser infoUser) {
+		return new PackUpdateClient(infoUser);
 	}
 
-	public PackUpdateClient(String name, String surName) {
+	public PackUpdateClient(InfoUser infoUser) {
 		super();
-		this.name = name;
-		this.surName = surName;
+		this.infoUser = infoUser;
+	}
+	
+	public InfoUser getInfoUser() {
+		return infoUser;
 	}
 	
 	public String getName() {
-		return name;
+		return infoUser.getName();
 	}
 
 	public String getSurName() {
-		return surName;
+		return infoUser.getSurName();
 	}
 	
 }

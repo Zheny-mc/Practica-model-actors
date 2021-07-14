@@ -59,7 +59,6 @@ public class Telegram extends IMessager {
 			}
 		
 			sendAll();
-			//System.out.println("Запрос на обновление");		
 		}
 		
 		unhandled(message);
