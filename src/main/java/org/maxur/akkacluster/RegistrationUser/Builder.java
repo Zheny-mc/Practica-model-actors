@@ -61,6 +61,7 @@ public class Builder {
 
 	public IUser getUser() {
 		return user;
+		//return new RegisteredUser("Evgeny", "Bubnov", "1", "2");
 	}
 	
 }

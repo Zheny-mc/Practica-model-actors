@@ -23,7 +23,7 @@ import akka.actor.UntypedAbstractActor;
 public class PrimeWorkerActor extends UntypedAbstractActor {
 
 private ActorRef sqlDataBase;
-	
+
 	@Override
 	public void preStart() {
 		sqlDataBase = getContext().actorOf(Props.create(SQLdataBaseActor.class), "sqlDataBase");
