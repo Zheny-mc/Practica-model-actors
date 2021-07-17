@@ -3,6 +3,8 @@ package org.maxur.akkacluster.Users;
 
 import java.util.Map;
 
+import org.maxur.akkacluster.RegistrationUser.Builder;
+import org.maxur.akkacluster.RegistrationUser.StateUser;
 import org.maxur.akkacluster.baseData.Record;
 import org.maxur.akkacluster.mainMircoService.PrimeWorkerActor;
 import org.maxur.akkacluster.packageForDialog.PackChangeRecord;
@@ -15,8 +17,9 @@ import akka.actor.ActorSelection;
 import akka.actor.Props;
 import akka.actor.UntypedAbstractActor;
 
-public class ClientActor extends UntypedAbstractActor {		
+public class ClientActor extends UntypedAbstractActor {	
 	
+	private Builder builder;
 	private ActorRef worker;
 	private IUser user;
 	
@@ -24,8 +27,11 @@ public class ClientActor extends UntypedAbstractActor {
 	
 	@Override
 	public void preStart() {
+		builder = new Builder(StateUser.REGISTERED);
+		builder.build();
+		user = builder.getUser();
+		
 		worker = getContext().actorOf(Props.create(PrimeWorkerActor.class), "worker");
-		user = new RegisteredUser("Evgeny", "Bubnov");
 	}
 	
 	@Override

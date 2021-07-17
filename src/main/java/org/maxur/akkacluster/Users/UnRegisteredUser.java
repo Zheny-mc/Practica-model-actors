@@ -28,10 +28,4 @@ public class UnRegisteredUser extends IUser {
 		System.out.println("ошибка доступа, зарегестрируйтесь!");
 	}
 
-	@Override
-	public Map<Integer, Record> getRecords() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -47,10 +47,10 @@ public class Main {
 		
 		client.tell(PackUpdateClient.create(infoUser), ActorRef.noSender());
 		
-		try { Thread.sleep(5000L); } 
-		catch (InterruptedException e) { e.printStackTrace(); }
+		//try { Thread.sleep(10000L); } 
+		//catch (InterruptedException e) { e.printStackTrace(); }
 		
-		system.terminate();
+		//system.terminate();
 	}
 	
 }

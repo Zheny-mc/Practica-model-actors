@@ -7,6 +7,14 @@ import org.maxur.akkacluster.baseData.Record;
 
 public class RegisteredUser extends IUser {
 	
+	public RegisteredUser(String name, String surname, String login, String password) {
+		this.name = name;
+		this.surname = surname;
+		this.login = login;
+		this.password = password;
+		records = new HashMap<Integer, Record>();
+	}
+	
 	public RegisteredUser(String name, String surname) {
 		this.name = name;
 		this.surname = surname;
@@ -31,10 +39,5 @@ public class RegisteredUser extends IUser {
 	public void changeRecord(Integer oldId, Integer newId, Record record) {
 		popRecord(oldId);
 		pushRecord(newId, record);
-	}
-
-	@Override
-	public Map<Integer, Record> getRecords() {
-		return records;
 	}
 }

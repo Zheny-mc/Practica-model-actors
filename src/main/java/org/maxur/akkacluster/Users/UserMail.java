@@ -35,9 +35,4 @@ public class UserMail extends IUser{
 		pushRecord(newId, record);
 	}
 
-	@Override
-	public Map<Integer, Record> getRecords() {
-		return records;
-	}
-
 }

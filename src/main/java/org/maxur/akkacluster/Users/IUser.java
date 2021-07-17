@@ -27,7 +27,9 @@ public abstract class IUser {
 		this.surname = surname;
 	}
 	
-	public abstract Map<Integer, Record> getRecords();
+	public Map<Integer, Record> getRecords() {
+		return records;
+	}
 	
 	public void setRecords(Map<Integer, Record> records) {
 		this.records = records;
