@@ -41,7 +41,7 @@ public class Entrance {
 			list = Files.readAllLines(path);
 			int numUser = Integer.parseInt(list.get(0));
 			
-			for (int i = 1; i < numUser; ++i) {
+			for (int i = 1; i <= numUser; ++i) {
 				String[] recordUser = list.get(i).split(" ");
 				users.add(new RegisteredUser(recordUser[0], recordUser[1], 
 						recordUser[2], recordUser[3]));
@@ -72,7 +72,7 @@ public class Entrance {
 		InfoUser infoUser = null;
 		
 		for (IUser i: users) {
-			if (login.hashCode() == Integer.parseInt(i.getLogin()) &&
+			if (Integer.parseInt(login) == Integer.parseInt(i.getLogin()) &&
 					password.hashCode() == Integer.parseInt(i.getPassword()) ) {
 				infoUser = new InfoUser(i.getName(), i.getSurname());
 				break;

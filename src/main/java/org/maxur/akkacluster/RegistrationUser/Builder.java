@@ -1,6 +1,9 @@
 package org.maxur.akkacluster.RegistrationUser;
 
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import org.maxur.akkacluster.Users.IUser;
@@ -33,8 +36,29 @@ public class Builder {
 			System.out.println("Ошибка, попробуйте еще раз!");
 	}
 	
+	private IUser getUserFromFile(String filePath) {
+		Path path = Paths.get(filePath);
+		String str = "";
+		
+		try {
+			str = Files.readString(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+				
+		String[] listFieldsUser = str.split(" ");
+		IUser tmpUser = new RegisteredUser(listFieldsUser[0], 
+				listFieldsUser[1], listFieldsUser[2], listFieldsUser[3]);
+		return tmpUser;
+	}
+	
 	public void enterUser() {
-		String login = input("Input login: "); 
+		String filePath = "E:\\Загрузки\\akka1\\src\\main\\java\\org\\"
+				+ "maxur\\akkacluster\\infomation_user.txt";
+		IUser tmpUser = getUserFromFile(filePath);
+		
+		System.out.println("Hello, " + tmpUser.getName());
+		String login = tmpUser.getLogin();
 		String password = input("Input password: ");
 		Entrance entrance = new Entrance(login, password);
 		if (entrance.check() != null) {
@@ -61,7 +85,6 @@ public class Builder {
 
 	public IUser getUser() {
 		return user;
-		//return new RegisteredUser("Evgeny", "Bubnov", "1", "2");
 	}
 	
 }

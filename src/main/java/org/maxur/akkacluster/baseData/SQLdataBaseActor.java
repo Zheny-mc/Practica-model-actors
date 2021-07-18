@@ -13,12 +13,10 @@ import org.maxur.akkacluster.Users.InfoUser;
 import org.maxur.akkacluster.packageForDialog.PackChangeRecord;
 import org.maxur.akkacluster.packageForDialog.PackPopRecord;
 import org.maxur.akkacluster.packageForDialog.PackPushRecord;
+import org.maxur.akkacluster.packageForDialog.PackPushUser;
 import org.maxur.akkacluster.packageForDialog.PackUpdateClient;
 import org.maxur.akkacluster.senderMiroService.MailMessage;
-import org.maxur.akkacluster.senderMiroService.Telegram;
 
-import akka.actor.ActorSystem;
-import akka.actor.Props;
 import akka.actor.UntypedAbstractActor;
 
 import java.util.Scanner;
@@ -28,23 +26,9 @@ public class SQLdataBaseActor extends UntypedAbstractActor {
 	
 	private IBaseData baseData;
 	
-	public static void main(String[] args) throws Exception {
-        startSystem();
-    }
-
-    private static void startSystem() {
-    	ActorSystem system = ActorSystem.create("learning");
-    	system.actorOf(Props.create(SQLdataBaseActor.class), "SQLdataBaseActor");
-    }
-	
 	@Override
 	public void preStart() {
 		baseData = SQLdataBase.create();
-	}
-	
-	@Override
-	public void postStop() throws Exception {
-		super.postStop();
 	}
 	
 	@Override
@@ -82,6 +66,12 @@ public class SQLdataBaseActor extends UntypedAbstractActor {
 			final InfoUser infoUser = packChangeRecord.getInfoUser();
 			baseData.changeRecord(oldId, newId, record, infoUser);
 			sender().tell("изменение: успешно", getSelf());
+		}
+		
+		if (message instanceof PackPushUser) {
+			final PackPushUser packPushUser = (PackPushUser)message;
+			baseData.pushUser(new InfoUser(packPushUser.getName(), packPushUser.getSurName()));
+			sender().tell("добавление пользователя: успешно", getSelf());
 		}
 		
 		//------------------------------------------------------------------------

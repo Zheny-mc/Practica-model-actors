@@ -191,5 +191,9 @@ public class SQLdataBase implements IBaseData {
 		update();
 	}
 
-	
+	@Override
+	public void pushUser(InfoUser infoUser) {
+		users.put(infoUser, new RegisteredUser(infoUser.getName(), infoUser.getSurName()));
+		update();
+	}
 }

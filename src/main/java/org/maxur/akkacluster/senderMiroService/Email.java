@@ -27,37 +27,17 @@ import org.maxur.akkacluster.baseData.Record;
 import org.maxur.akkacluster.baseData.SQLdataBaseActor;
 
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import akka.actor.Props;
 
 public class Email extends IMessager {
 	
-	private ActorRef repository;
+	private ActorRef repository = getContext().actorOf(Props.create(SQLdataBaseActor.class), "repository");
 	
-	public static void main(String[] args) throws Exception {
-        startSystem();
-    }
-
-    private static void startSystem() {
-    	ActorSystem system = ActorSystem.create("learning");
-    	system.actorOf(Props.create(Email.class), "telegram");
-    }
-	
-	@Override
-    public void preStart() throws Exception {
-		super.preStart();
+	public Email() {
 		name = "Email";
 		users = new ArrayList<IUser>();
 		users.add(new UserMail("Евгений", "Бубнов", "ngtu.19ivt2@yandex.ru", "19-ivt-2IRIT"));
 		users.add(new UserMail("Вова", "Смолков", "ngtu.19ivt2@yandex.ru", "19-ivt-2IRIT"));
-		
-		repository = getContext().actorOf(Props.create(SQLdataBaseActor.class), "repository");	
-		run();
-	}	
-	
-	@Override
-	public void postStop() throws Exception {
-		super.postStop();
 	}
 	
 	public void send(final String senderLogin, final String senderPasword, 
@@ -125,6 +105,9 @@ public class Email extends IMessager {
 
 	@Override
 	public void onReceive(Object message) {
+		if (message instanceof MailMessage) {
+			repository.tell(message, getSelf());
+		}
 		
 		if (message instanceof Map<?, ?>) {			
 			final Map<Integer, Record> records = (Map<Integer, Record>)message;
@@ -145,10 +128,7 @@ public class Email extends IMessager {
 		}
 		
 		unhandled(message);
-	}
-	
-	private void run() {
-		repository.tell(MailMessage.create("update"), getSelf());
+		
 	}
 	
 }

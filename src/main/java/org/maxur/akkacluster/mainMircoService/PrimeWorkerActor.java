@@ -10,6 +10,7 @@ import org.maxur.akkacluster.baseData.SQLdataBaseActor;
 import org.maxur.akkacluster.packageForDialog.PackChangeRecord;
 import org.maxur.akkacluster.packageForDialog.PackPopRecord;
 import org.maxur.akkacluster.packageForDialog.PackPushRecord;
+import org.maxur.akkacluster.packageForDialog.PackPushUser;
 import org.maxur.akkacluster.packageForDialog.PackUpdateClient;
 
 import com.typesafe.config.Config;
@@ -23,7 +24,7 @@ import akka.actor.UntypedAbstractActor;
 public class PrimeWorkerActor extends UntypedAbstractActor {
 
 private ActorRef sqlDataBase;
-
+	
 	@Override
 	public void preStart() {
 		sqlDataBase = getContext().actorOf(Props.create(SQLdataBaseActor.class), "sqlDataBase");
@@ -49,6 +50,11 @@ private ActorRef sqlDataBase;
 		if (message instanceof PackChangeRecord) {
 			final PackChangeRecord packChangeRecord = (PackChangeRecord)message;
 			sqlDataBase.tell(packChangeRecord, sender());
+		}
+		
+		if (message instanceof PackPushUser) {
+			final PackPushUser packPushUser = (PackPushUser)message;
+			sqlDataBase.tell(packPushUser, sender());
 		}
 		
 	}

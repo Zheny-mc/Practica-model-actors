@@ -1,8 +1,9 @@
-2
+3
+testName testSurName 1
+1573605215 vanga pistolet 0
 Tanya Kolokolova 2
 8821158 Roma Practica 5217
 9818114 Tanya Practica 5215
-Evgeny Bubnov 3
+Evgeny Bubnov 2
 4646546 Evgeny Practica 5214
--1095974616 vanga pistolet 0
 4584284 Vova Practica 5216

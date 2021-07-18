@@ -10,30 +10,21 @@ import org.maxur.akkacluster.mainMircoService.PrimeWorkerActor;
 import org.maxur.akkacluster.packageForDialog.PackChangeRecord;
 import org.maxur.akkacluster.packageForDialog.PackPopRecord;
 import org.maxur.akkacluster.packageForDialog.PackPushRecord;
+import org.maxur.akkacluster.packageForDialog.PackPushUser;
 import org.maxur.akkacluster.packageForDialog.PackUpdateClient;
 
-
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
+import akka.actor.ActorSelection;
 import akka.actor.Props;
 import akka.actor.UntypedAbstractActor;
 
 public class ClientActor extends UntypedAbstractActor {	
-
-	private ActorRef worker;
-	//------------------------------------
-	private Builder builder;
-	private IUser user;	
-	private int job_id_counter = 0;
 	
-	public static void main(String[] args) throws Exception {
-        startSystem();
-    }
-
-    private static void startSystem() {
-    	ActorSystem system = ActorSystem.create("learning");
-    	system.actorOf(Props.create(ClientActor.class), "client");
-    }
+	private Builder builder;
+	private ActorRef worker;
+	private IUser user;
+	
+	private int job_id_counter = 0;
 	
 	@Override
 	public void preStart() {
@@ -42,16 +33,36 @@ public class ClientActor extends UntypedAbstractActor {
 		user = builder.getUser();
 		
 		worker = getContext().actorOf(Props.create(PrimeWorkerActor.class), "worker");
-		run();
-	}
-	
-	@Override
-	public void postStop() throws Exception {
-		super.postStop();
 	}
 	
 	@Override
 	public void onReceive(Object message) {
+		//сообщение отправлено 
+		if (message instanceof PackUpdateClient) {	
+			PackUpdateClient packUpdateClient = (PackUpdateClient)message;
+			worker.tell(packUpdateClient, getSelf());		
+		}
+		
+		if (message instanceof PackPushRecord) {	
+			PackPushRecord packPushRecord = (PackPushRecord)message;
+			worker.tell(packPushRecord, getSelf());		
+		}
+		
+		if (message instanceof PackPopRecord) {	
+			PackPopRecord packPopRecord = (PackPopRecord)message;
+			worker.tell(packPopRecord, getSelf());		
+		}
+		
+		if (message instanceof PackChangeRecord) {
+			final PackChangeRecord packChangeRecord = (PackChangeRecord)message;
+			worker.tell(packChangeRecord, getSelf());
+		}
+		
+		if (message instanceof PackPushUser) {
+			final PackPushUser packPushUser = (PackPushUser)message;
+			worker.tell(packPushUser, getSelf());
+		}
+		
 		//сообщение пришло
 		if (message instanceof Map<?, ?>) {
 			Map<Integer, Record> records = (Map<Integer, Record>)message;
@@ -61,29 +72,11 @@ public class ClientActor extends UntypedAbstractActor {
 		
 		if (message instanceof String) {
 			final String ans = (String) message;			
-			System.out.println("Операция " + ans);
-			System.out.printf("work%d: \n", ++job_id_counter);
+			System.out.println(++job_id_counter + ")Операция " + ans);
 		}
 		
 		unhandled(message);		
 	}
-	
-	private void run() {
-		InfoUser infoUser = InfoUser.create(user.getName(), user.surname);
-		worker.tell(PackUpdateClient.create(infoUser), getSelf());
-		
-		for (int i = 0; i < 1; ++i) {
-			final Record record1 = new Record("vanga", "pistolet", i);
-			//final Record record2 = new Record("vanga", "pistolet", 1010);
-			
-			worker.tell(PackPushRecord.create(record1.hashCode(), record1, infoUser), getSelf());
-			
-			//client.tell(PackChangeRecord.create(record1.hashCode(), record2.hashCode(), record2, infoUser), ActorRef.noSender());
-			//client.tell(PackPopRecord.create(record1.hashCode(), infoUser), ActorRef.noSender());
-		}
-		
-		worker.tell(PackUpdateClient.create(infoUser), getSelf());
-    }
 	
 }
 

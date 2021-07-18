@@ -9,6 +9,7 @@ public interface IBaseData {
 	public void pushRecord(Integer id, Record record, InfoUser infoUser);
 	public void popRecord(Integer id, InfoUser infoUser);
 	public void changeRecord(Integer oldId, Integer newId, Record record, InfoUser infoUser);
+	public void pushUser(InfoUser infoUser);
 	public void readBase();
 	public void update();
 	public Map<InfoUser, IUser> getUsers();

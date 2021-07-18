@@ -28,6 +28,7 @@ public class Regisration {
 			String login, String password) {
 		user = new RegisteredUser(name, surName, login, password);
 		writeUser();
+		saveToDisk();
 	}
 	
 	public IUser getUser() {
@@ -61,5 +62,20 @@ public class Regisration {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void saveToDisk() {
+		String filePath = "E:\\Загрузки\\akka1\\src\\main\\java\\org\\"
+				+ "maxur\\akkacluster\\infomation_user.txt";
+		
+		Path path = Paths.get(filePath);
+		
+		String recordUser = user.getName() + " " + user.getSurname() + " " +  
+				user.getLogin().hashCode() + " " + user.getPassword().hashCode();
+		try {
+			Files.writeString(path, recordUser);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

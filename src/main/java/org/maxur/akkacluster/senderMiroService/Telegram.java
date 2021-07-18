@@ -6,51 +6,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.maxur.akkacluster.Users.ClientActor;
 import org.maxur.akkacluster.Users.IUser;
 import org.maxur.akkacluster.Users.RegisteredUser;
 import org.maxur.akkacluster.baseData.Record;
 import org.maxur.akkacluster.baseData.SQLdataBaseActor;
 
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import akka.actor.Props;
 
 public class Telegram extends IMessager {
 	
-	private ActorRef repository;
+	private ActorRef repository = getContext().actorOf(Props.create(SQLdataBaseActor.class), "repository");
 	
-	public static void main(String[] args) throws Exception {
-        startSystem();
-    }
-
-    private static void startSystem() {
-    	ActorSystem system = ActorSystem.create("learning");
-    	system.actorOf(Props.create(Telegram.class), "telegram");
-    }
-	
-    @Override
-    public void preStart() throws Exception {
-    	super.preStart();
-    	name = "Telegram";
+	public Telegram() {
+		name = "Telegram";
 		users = new ArrayList<IUser>();
 		users.add(new RegisteredUser("Евгений", "Бубнов"));
 		users.add(new RegisteredUser("Вова", "Смолков"));
-		repository = getContext().actorOf(Props.create(SQLdataBaseActor.class), "repository");
-		run();
-    }
-		
-    @Override
-    public void postStop() throws Exception {
-    	super.postStop();
-    }
-    
+	}
+	
 	@Override
 	public void sendAll() {
+		/*
 		for (IUser i: users) {
 			System.out.println("Отправлено: " + i.getRecords().size() + " записи\n" + 
 					"от:" + name + "\n" +  "к: "+ i.getName() + " " + i.getSurname() +"\n"); 
-		}
+		}*/
 		
 		//иммитация большого кол-ва пользователей
 		try { Thread.sleep(100); } 
@@ -59,6 +40,9 @@ public class Telegram extends IMessager {
 
 	@Override
 	public void onReceive(Object message) {
+		if (message instanceof MailMessage) {
+			repository.tell(message, getSelf());
+		}
 		
 		if (message instanceof Map<?, ?>) {			
 			final Map<Integer, Record> records = (Map<Integer, Record>)message;
@@ -79,9 +63,6 @@ public class Telegram extends IMessager {
 		}
 		
 		unhandled(message);
-	}
-	
-	private void run() {
-		repository.tell(MailMessage.create("update"), getSelf());
+		
 	}
 }

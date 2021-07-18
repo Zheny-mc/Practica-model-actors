@@ -43,7 +43,7 @@ public class Record {
 	public void setAudienceNumber(Integer audienceNumber) {
 		this.audienceNumber = audienceNumber;
 	}
-	
+	/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -53,6 +53,7 @@ public class Record {
 		result = prime * result + ((topic == null) ? 0 : topic.hashCode());
 		return result;
 	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -80,7 +81,9 @@ public class Record {
 			return false;
 		return true;
 	}
-
+	*/
+	
+	
 	@Override
 	public String toString() {
 		return "Record [name=" + name + ", topic=" + topic + ", audienceNumber=" + audienceNumber + "]";

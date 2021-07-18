@@ -40,4 +40,12 @@ public class RegisteredUser extends IUser {
 		popRecord(oldId);
 		pushRecord(newId, record);
 	}
+
+	@Override
+	public String toString() {
+		return "RegisteredUser [" + "name=" + name + ", " +
+				"surname=" + surname + "]";
+	}
+	
+	
 }
