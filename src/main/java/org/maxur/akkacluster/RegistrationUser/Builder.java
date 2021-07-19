@@ -57,17 +57,20 @@ public class Builder {
 				+ "maxur\\akkacluster\\infomation_user.txt";
 		IUser tmpUser = getUserFromFile(filePath);
 		
-		System.out.println("Hello, " + tmpUser.getName());
-		String login = tmpUser.getLogin();
-		String password = input("Input password: ");
-		Entrance entrance = new Entrance(login, password);
-		if (entrance.check() != null) {
-			System.out.println("Вход в систему...");
-			InfoUser info = entrance.check();
-			user = new RegisteredUser(info.getName(), info.getSurName());
-		} 
-		else {
-			System.out.println("Ошибка, попробуйте еще раз!");
+		while (true) {
+			System.out.println("Hello, " + tmpUser.getName());
+			String login = tmpUser.getLogin();
+			String password = input("Input password: ");
+			Entrance entrance = new Entrance(login, password);
+			if (entrance.check() != null) {
+				System.out.println("Вход в систему...");
+				InfoUser info = entrance.check();
+				user = new RegisteredUser(info.getName(), info.getSurName());
+				break;
+			} 
+			else {
+				System.out.println("Ошибка, попробуйте еще раз!");
+			}
 		}
 			
 	}
