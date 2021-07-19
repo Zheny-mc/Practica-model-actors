@@ -32,6 +32,11 @@ public class SQLdataBaseActor extends UntypedAbstractActor {
 	}
 	
 	@Override
+	public void postStop() throws Exception {
+		
+	}
+	
+	@Override
 	public void onReceive(Object message) throws Exception {
 		//update list
 		if (message instanceof PackUpdateClient) {	

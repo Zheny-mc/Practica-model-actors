@@ -5,5 +5,5 @@ public enum ActionsUser {
 	POP,
 	CHANGE,
 	RECORDS_USER,
-	GET_RECORDS
+	EXIT
 }

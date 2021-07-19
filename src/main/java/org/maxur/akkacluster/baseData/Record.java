@@ -43,7 +43,7 @@ public class Record {
 	public void setAudienceNumber(Integer audienceNumber) {
 		this.audienceNumber = audienceNumber;
 	}
-	/*
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -81,7 +81,6 @@ public class Record {
 			return false;
 		return true;
 	}
-	*/
 	
 	
 	@Override

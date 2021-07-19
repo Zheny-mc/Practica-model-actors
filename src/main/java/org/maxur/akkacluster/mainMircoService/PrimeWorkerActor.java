@@ -31,6 +31,12 @@ private ActorRef sqlDataBase;
 	}
 	
 	@Override
+	public void postStop() throws Exception {
+		System.out.println("stop worker");
+		context().system().terminate();
+	}
+	
+	@Override
 	public void onReceive(Object message) {
 		if (message instanceof PackUpdateClient) {	
 			final PackUpdateClient packUpdateClient = (PackUpdateClient)message;
