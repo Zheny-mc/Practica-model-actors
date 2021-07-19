@@ -9,8 +9,6 @@ public class RegistrationNewUser {
 		Builder builder = new Builder(StateUser.UNREGISTERED);
 
 		builder.build();
-		
-		
 	}
 	
 }

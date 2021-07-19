@@ -91,7 +91,8 @@ public class ClientActor extends UntypedAbstractActor {
 		System.out.println("0 - push   record");
 		System.out.println("1 - pop    record");
 		System.out.println("2 - change record");
-		System.out.println("3 - end job");
+		System.out.println("3 - push   user");
+		System.out.println("4 - end job");
 		
 		return sc.nextInt();
 	}
@@ -100,16 +101,13 @@ public class ClientActor extends UntypedAbstractActor {
 		String filePath = "E:\\Загрузки\\akka1\\src\\main\\java\\org\\"
 				+ "maxur\\akkacluster\\infomation_user.txt";
 		IUser user = getUserFromFile(filePath);
-		
 		InfoUser infoUser = InfoUser.create(user.getName(), user.getSurname());
-		
-		getRecords(infoUser);
 		
 		Integer mode;
 		while (true) {
 			mode = inputMode();
 			
-			if (mode == 3) {
+			if (mode == 4) {
 				sendMessagers();
 				getRecords(infoUser);
 				worker.tell(PoisonPill.getInstance(), noSender());
@@ -125,6 +123,9 @@ public class ClientActor extends UntypedAbstractActor {
 				break;
 			case 2:
 				changeRecord(infoUser);
+				break;
+			case 3:
+				pushUser();
 				break;
 			default:
 				System.out.println("!Error!");
@@ -168,6 +169,11 @@ public class ClientActor extends UntypedAbstractActor {
 		final Record record1 = new Record("vanga", "pistolet", 2021);
 		final Record record2 = new Record("vanga", "pistolet", 2050);
 		worker.tell(PackChangeRecord.create(record1.hashCode(), record2.hashCode(), record2, infoUser), self());
+	}
+
+	private void pushUser() {
+		InfoUser info = new InfoUser("testName", "testSurName");
+		worker.tell(PackPushUser.create(info.getName(), info.getSurName()), self());
 	}
 	
 	private void getRecords(InfoUser infoUser) {
